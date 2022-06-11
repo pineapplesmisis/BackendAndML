@@ -12,6 +12,6 @@ services:
   nginx:
     image: nginx:latest
     volumes:
-      - ./NGINX/nginx.conf:/etc/nginx/nginx.conf
+      - ./Nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
      - 4201:80
