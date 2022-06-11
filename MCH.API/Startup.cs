@@ -53,6 +53,18 @@ namespace MCH.API
                 .AddEntityFrameworkStores<ProductionInfoDbContext>()
                 .AddDefaultTokenProviders();
             
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +76,8 @@ namespace MCH.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            
+            app.UseCors("CorsPolicy");
 
             app.UseRouting();
 
