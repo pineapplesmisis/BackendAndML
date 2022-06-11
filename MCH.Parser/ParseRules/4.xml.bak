@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rules>
+  <ListProductsUrl>
+  <item><![CDATA[\/katalog\/([\w-]+)\/]]></item>
+  <item><![CDATA[\/katalog\/([\w-]+)\/([\w-]+)]\/]></item>
+   <item><![CDATA[\/katalog\/]]></item>
+  </ListProductsUrl>
+  <ProductUrl>
+   <item><![CDATA[\/katalog\/([\w-]+)\/([\w-]+)\/([\w-]+)\/]]></item>
+  </ProductUrl>
+  <UrlBase>
+  <![CDATA[https://www.cherkizovo.ru]]>
+  </UrlBase>
+  <ProductName>
+  <![CDATA[//h1[@class='detail-card-title']]]>
+  </ProductName>
+  <ProductDescription >
+  <![CDATA[//div[@class='details-short-description']]]>
+  </ProductDescription>
+  
+  <ProductImage takenAttrubute="src">
+   <![CDATA[//img[@class='slider-img']]]>
+  </ProductImage>
+</rules>
