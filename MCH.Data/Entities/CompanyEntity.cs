@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using MCH.Data.Entities;
 
 namespace MCH.Parset.Data.Entities
@@ -13,7 +14,11 @@ namespace MCH.Parset.Data.Entities
         public  string CompanyName { get; set; }
         public  string IIN { get; set; }
         public  string Url { get; set; }
+        
+        [JsonIgnore]
         public  virtual  IEnumerable<ProductEntity > products { get; set; }
+        
+        [JsonIgnore]
         public  virtual  IEnumerable<UrlsToParseEntity> urls { get; set; }
     }
 }
