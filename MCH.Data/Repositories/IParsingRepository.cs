@@ -24,5 +24,11 @@ namespace MCH.Core.Parsing
         IEnumerable<ProductEntity> GetProductsByCompany(int companyId, int count);
 
         IEnumerable<ProductEntity> GetProductsbyQuery(string query, int count);
+
+        Task CrateCompany(CompanyEntity companyEntity);
+
+        Task CrateUrlToParseAsync(UrlsToParseEntity urlsToParse);
+
+        CompanyEntity GetCompanyById(int Id);
     }
 }

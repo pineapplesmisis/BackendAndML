@@ -12,5 +12,14 @@ namespace MCH.Utils.Products
             }
             return  new string(text.Where(c => char.IsLetter(c) || char.IsDigit(c) || char.IsSeparator(c)).ToArray());
         }
+
+        public static string CleanNumber(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return string.Empty;
+            }
+            return  new string(text.Where(c =>  char.IsDigit(c)).ToArray());
+        }
     }
 }

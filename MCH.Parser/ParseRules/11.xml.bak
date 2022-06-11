@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rules>
+  <ListProductsUrl>
+  <item><![CDATA[https://www.fili-baker.ru/]]></item>
+  <item><![CDATA[\/(\w+)\/([\w\d])+\/]]></item>
+  <item><![CDATA[\/catalog\/([\w_]+)\/]]></item>
+  </ListProductsUrl>
+  <ProductUrl>
+   <item><![CDATA[\/(\w+)\/([\w\d])+\/(\d+)\/]]></item>
+  </ProductUrl>
+  <UrlBase>
+  <![CDATA[https://www.fili-baker.ru/]]>
+  </UrlBase>
+  <ProductName>
+  <![CDATA[//h1]]>
+  </ProductName>
+  <ProductDescription>
+   <![CDATA[//div[@class='rightcake']/div[2]]]>
+  </ProductDescription>
+  <ProductImage takenAttrubute="src">
+   <![CDATA[//img[@class='lazy product-detail-gallery__picture ']]]>
+  </ProductImage>
+</rules>

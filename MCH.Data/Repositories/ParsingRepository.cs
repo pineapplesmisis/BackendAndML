@@ -67,6 +67,19 @@ namespace MCH.Core.Parsing
                 .Take(count);
         }
 
+        public async Task CrateCompany(CompanyEntity companyEntity)
+        {
+            await _context.CompanyEntities.AddAsync(companyEntity);
+        }
 
+        public async Task CrateUrlToParseAsync(UrlsToParseEntity urlsToParse)
+        {
+            await _context.UrlsToParseEntities.AddAsync(urlsToParse);
+        }
+
+        public CompanyEntity GetCompanyById(int Id)
+        {
+            return _context.CompanyEntities.FirstOrDefault(c => c.Id == Id);
+        }
     }
 }

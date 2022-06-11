@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rules>
+  <ListProductsUrl>
+  <item><![CDATA[https://www.orion-ir.ru/]]></item>
+  <item><![CDATA[\/production\/([\w-]+)\/]]></item>
+  </ListProductsUrl>
+  <ProductUrl>
+   <item><![CDATA[\/production\/([\w-]+)\/([\w-]+)\/]]></item>
+  </ProductUrl>
+  <UrlBase>
+  <![CDATA[https://www.orion-ir.ru]]>
+  </UrlBase>
+  <ProductName>
+  <![CDATA[//div[@class='product__content col-xs-12 col-md-6 col-lg-7']/h1]]>
+  </ProductName>
+ <ProductPrice>
+   <![CDATA[//span[@class='price_value']]]>
+  </ProductPrice>
+  <ProductDescription>
+  <![CDATA[//div[@class='product__text']/p]]>
+  </ProductDescription>
+  <ProductImage takenAttrubute="src">
+   <![CDATA[//div[@class='product__slider-item slick-slide slick-current slick-active']/img]]>
+  </ProductImage>
+</rules>

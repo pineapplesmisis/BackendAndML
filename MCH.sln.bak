@@ -15,7 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCH.Services", "MCH.Service
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCH.Utils", "MCH.Utils\MCH.Utils.csproj", "{7AE7AB83-180A-49E9-B0DC-03EB5655FC33}"
 EndProject
-
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5D5F5359-A1D5-423E-8DA6-9E06F2C7EBD6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rules>
+  <ListProductsUrl>
+  <item><![CDATA[https://www.mastersuit.ru/]]></item>
+  <item><![CDATA[\/([\w-]+)$]]></item>
+  <item><![CDATA[\/index\.olg\/(\w+)\?start=(\d+)]]></item>
+  <item><![CDATA[\/index\.olg\/category\/view\/(\d+)]]></item>
+  <item><![CDATA[\/index\.olg\/category\/view\/(\d+)\/(\d+)]]></item>
+  </ListProductsUrl>
+  <ProductUrl>
+   <item><![CDATA[\/(\w+)\/(\w+)\/([\w\d-]+)$]]></item>
+  </ProductUrl>
+  <UrlBase>
+  <![CDATA[https://www.mastersuit.ru]]>
+  </UrlBase>
+  <ProductName>
+  <![CDATA[//div[contains(@class, 'js-product-name')]]]>
+  </ProductName>
+ <ProductPrice>
+    <![CDATA[//div[contains(@class, 'js-product-price')]]]>
+  </ProductPrice>
+  <ProductDescription>
+   <![CDATA[//div[@class='jshop_prod_description']/p/span]]>
+  </ProductDescription>
+  <ProductImage takenAttrubute="data-original">
+    <![CDATA[//div[contains(@class, 'js-product-image')]]]>
+  </ProductImage>
+</rules>

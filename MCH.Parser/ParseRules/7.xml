@@ -2,7 +2,7 @@
 <rules>
   <ListProductsUrl>
   <item><![CDATA[\/katalog\/([\w-]+)\/]]></item>
-  <item><![CDATA[\/katalog\/([\w-]+)\/([\w-]+)]\/]></item>
+  <item><![CDATA[\/katalog\/([\w-]+)\/([\w-]+)\/]]></item>
    <item><![CDATA[\/katalog\/]]></item>
   </ListProductsUrl>
   <ProductUrl>

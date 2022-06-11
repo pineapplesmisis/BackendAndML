@@ -19,7 +19,7 @@ namespace MCH.BackgroundServices
         public Worker(ILogger<Worker> logger, IOptions<AppSettings> settings, IServiceScopeFactory serviceScopeFactory)
         {
             _logger = logger;
-            _manager = new(settings);
+            _manager = new(settings, _logger);
             _serviceScopeFactory = serviceScopeFactory;
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -11,6 +10,7 @@ using MCH.Models;
 using MCH.Utils.Products;
 using MCH.XmlRules;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace MCH.Parsers
 {
@@ -19,10 +19,12 @@ namespace MCH.Parsers
         private readonly Dictionary<string, int> _checkedLinks;
         private readonly XmlRulesParser _xmlParser;
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private Company _company;
+        private int _companyId;
         private int currentRecursion = 0;
-        public MainParser(IServiceScopeFactory serviceScopeFactory, string pathToXmlFiles)
+        private readonly ILogger _logger;
+        public MainParser(IServiceScopeFactory serviceScopeFactory, string pathToXmlFiles, ILogger logger)
         {
+            _logger = logger;
             _serviceScopeFactory = serviceScopeFactory;
             _requests = new();
             _checkedLinks = new();
@@ -31,21 +33,28 @@ namespace MCH.Parsers
 
         public async Task Start(int companyId)
         {
-            var rules = getRules(companyId);
+            _companyId = companyId;
+            var rules = _xmlParser.getRules(companyId);
             if (rules is null)
             {
+                _logger.LogWarning($"Xml file for company: {companyId} not parsed.");
                 return;
             }
-             _company = getCompany(companyId);
+            
             var urlsToParse = getUrlsToParse(companyId);
             await ParseUrl(rules, urlsToParse.First());
         }
 
+
+    /// <summary>
+    /// Выполняет парсинг сайта, начиная с указанной ссылки
+    /// </summary>
+    /// <param name="rules">Правила парсинга</param>
+    /// <param name="urlsToParse">ссылка</param>
         private async  Task ParseUrl(ParseRules rules, UrlsToParse urlsToParse)
         {
             try
             {
-                var url = new Uri(urlsToParse.Url);
                 var isListProduct = IsListProducts(rules, urlsToParse.Url);
                 if (isListProduct)
                 {
@@ -63,10 +72,15 @@ namespace MCH.Parsers
             }
             catch (Exception ex)
             {
-                
+                _logger.LogError($"Error while parsing url: {urlsToParse}");
             }
         }
 
+        /// <summary>
+        /// Поиск ссылок и переход по ним на странице со списком продуктов
+        /// </summary>
+        /// <param name="url">Ссылка</param>
+        /// <param name="rules">Правила парсинга</param>
         private async  Task ParseListProducts( string url, ParseRules rules)
         {
             if (_checkedLinks.ContainsKey(url))
@@ -89,40 +103,29 @@ namespace MCH.Parsers
             }
             var listProductsUrls = getListProductUrls(body, rules);
 
-            foreach (var productUrlrl in listProductsUrls)
+            foreach (var productUrl in listProductsUrls)
             {
-                var _url = productUrlrl;
-                if (!productUrlrl.Contains(rules.UrlBase))
+                var _url = productUrl;
+                if (!productUrl.Contains(rules.UrlBase))
                 {
                     _url = rules.UrlBase + _url;
                 }
-
-                if (!_checkedLinks.ContainsKey(_url))
-                {
-                    currentRecursion++;
-                    if (currentRecursion > 20)
-                    {
-                        break;
-                    }
-
-                    try
-                    {
-                        await ParseListProducts(_url, rules);
-                    }
-                    catch (Exception ex)
-                    {
-                        
-                    }
-                    currentRecursion--;
-                }
+                
+                await ParseListProducts(_url, rules);
             }
 
         }
 
+        /// <summary>
+        /// Парсит ссылку с продуктом
+        /// </summary>
+        /// <param name="url">ссылка</param>
+        /// <param name="rules">правила парсинга</param>
         private async Task ParseProduct(string url, ParseRules rules)
         {
             if (_checkedLinks.ContainsKey(url))
             {
+                //Выход, если уже просмотрели эту ссылку
                 return;
             }
             _checkedLinks[url] = 1;
@@ -156,14 +159,14 @@ namespace MCH.Parsers
                     {
                         if (!string.IsNullOrEmpty(rules.ProductPrice.TakenAttrubute))
                         {
-                            if(int.TryParse(price.First().Attributes[rules.ProductPrice.TakenAttrubute]?.Value, out var priceInt))
+                            if(int.TryParse(TextCleaner.CleanNumber(price.First().Attributes[rules.ProductPrice.TakenAttrubute]?.Value), out var priceInt))
                             {
                                 product.Price = priceInt;
                             }
                         }
                         else
                         {
-                            if(int.TryParse( price.First().InnerHtml, out var priceInt))
+                            if(int.TryParse( TextCleaner.CleanNumber(price.First().InnerHtml), out var priceInt))
                             {
                                 product.Price = priceInt;
                             };
@@ -211,8 +214,25 @@ namespace MCH.Parsers
                     }
                 }
 
+                await SaveProduct(product, url);
 
 
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error while parsing product. Url: {url}. Message: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Сохранение продукта в базу данных
+        /// </summary>
+        /// <param name="product">Продукт</param>
+        /// <param name="url">Ссылка</param>
+        private async Task SaveProduct(Product product, string url)
+        {
+            try
+            {
                 if (!string.IsNullOrEmpty(product.ProductName))
                 {
                     using (var scope = _serviceScopeFactory.CreateScope())
@@ -220,46 +240,68 @@ namespace MCH.Parsers
                         var unitOfWork = scope.ServiceProvider.GetService<IUnitOfWork>();
                         var productEntity = new ProductEntity()
                         {
-                            CompanyId = _company.Id,
+                            CompanyId = _companyId,
                             ProductName = TextCleaner.CleanString(product.ProductName),
                             Price = product.Price,
                             Description = TextCleaner.CleanString(product.Description),
                             Url = url
                         };
                         await unitOfWork.parsingRepository.SaveProductAsync(productEntity);
-                        
-                      var prodId =  await unitOfWork.CommitAsync();
 
-                      if (product.Image is not null)
-                      {
-                          await unitOfWork.parsingRepository.AddImageAsync(new()
-                          {
-                              Url = product.Image,
-                              ProductId = productEntity.Id
-                          });
-                          await unitOfWork.CommitAsync();
-                      }
+                        var prodId = await unitOfWork.CommitAsync();
+
+                        if (product.Image is not null)
+                        {
+                            await unitOfWork.parsingRepository.AddImageAsync(new()
+                            {
+                                Url = product.Image,
+                                ProductId = productEntity.Id
+                            });
+                            await unitOfWork.CommitAsync();
+                        }
                     }
+                    _logger.LogInformation($"Product with name: {product.ProductName} saved in db. Url: {url}");
                 }
-                
+               
             }
             catch (Exception ex)
             {
-                
+                _logger.LogError($"Error while saving product with name: {product.ProductName}. Url: {url}. Message: {ex.Message}");
             }
-            //_logger.LogDebug(url);
         }
 
+        
+        /// <summary>
+        /// Получение ссылок на страницы с набором продуктов
+        /// </summary>
+        /// <param name="body">html body</param>
+        /// <param name="rules">Правила среза</param>
+        /// <returns></returns>
         private IEnumerable<string> getListProductUrls(string body, ParseRules rules)
         {
             return getUrls(rules.ListProductsUrl, body);
         }
         
+        /// <summary>
+        /// Получение ссылок на страницы с продуктом
+        /// </summary>
+        /// <param name="body">html body</param>
+        /// <param name="rules">Правила среза</param>
+        /// <returns></returns>
         private IEnumerable<string> getProductUrls(string body, ParseRules rules)
         {
             return getUrls(rules.ProductUrl, body);
         }
 
+        
+        
+        /// <summary>
+        /// Получениее ссылок из body(html),
+        /// которые соответствуют regex-выражениям
+        /// </summary>
+        /// <param name="regexes">regex-выражения</param>
+        /// <param name="body">html body</param>
+        /// <returns></returns>
         private IEnumerable<string> getUrls(IEnumerable<Regex> regexes, string body)
         {
             var urls = new List<string>();
@@ -273,6 +315,14 @@ namespace MCH.Parsers
 
         }
 
+        
+        /// <summary>
+        /// Проверка ялвяется ли ссылка ссылкой
+        /// на страницу с набором продуктов
+        /// </summary>
+        /// <param name="rules">Правила парсинга</param>
+        /// <param name="Url">Ссылка</param>
+        /// <returns></returns>
         private bool IsListProducts(ParseRules rules, string Url)
         {
             foreach (var regxListProd in rules.ListProductsUrl)
@@ -287,6 +337,14 @@ namespace MCH.Parsers
             return false;
         }
         
+        
+        /// <summary>
+        /// Проверка - является ли ссылка ссылкой
+        /// на страницу с продуктом
+        /// </summary>
+        /// <param name="rules">Правила парсинга</param>
+        /// <param name="Url">Ссылка</param>
+        /// <returns></returns>
         private bool IsProduct(ParseRules rules, string Url)
         {
             foreach (var regxListProd in rules.ProductUrl)
@@ -301,29 +359,12 @@ namespace MCH.Parsers
             return false;
         }
 
-        private ParseRules getRules(int companyId)
-        {
-            return _xmlParser.getRules(companyId);
-            
-        }
-
-        private Company getCompany(int companyId)
-        {
-            using (var scope = _serviceScopeFactory.CreateScope())
-            {
-                var unitOfWork = scope.ServiceProvider.GetService<IUnitOfWork>();
-                var compEmtity =  unitOfWork.parsingRepository.getCompanyEntity(companyId);
-                return new()
-                {
-                    Id = compEmtity.Id,
-                    CompanyName = compEmtity.CompanyName,
-                    Url = compEmtity.Url,
-                    IIN = compEmtity.IIN
-                };
-
-            }
-        }
-
+        
+        /// <summary>
+        /// получение ссылок для старта парсинга
+        /// </summary>
+        /// <param name="companyId">Id компании, сайт которой будет парситься</param>
+        /// <returns></returns>
         private IEnumerable<UrlsToParse> getUrlsToParse(int companyId)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
@@ -339,18 +380,7 @@ namespace MCH.Parsers
                         CompanyId = x.CompanyId
                     }).ToList<UrlsToParse>();
             }
-
-            
         }
 
-        private IUnitOfWork getUnitOfWork()
-        {
-            using (var scope = _serviceScopeFactory.CreateScope())
-            {
-                var unitOfWork = scope.ServiceProvider.GetService<IUnitOfWork>();
-                return unitOfWork;
-            }
-        }
-        
     }
 }

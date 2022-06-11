@@ -11,6 +11,10 @@ namespace MCH.Data.Configuration
         {
             builder
                 .HasKey(x => x.Id);
+            
+            builder
+                .Property(x => x.Id)
+                .ValueGeneratedOnAdd();
 
             builder
                 .HasOne<CompanyEntity>(x => x.company)

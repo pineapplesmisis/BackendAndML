@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rules>
+  <ListProductsUrl>
+  <item><![CDATA[\/products\/]]></item>
+  <item><![CDATA[\/products\/([\w\+]+)+\/]]></item>
+  </ListProductsUrl>
+  <ProductUrl>
+   <item><![CDATA[\/products\/([\w\+]+)\/(\w+)\/]]></item>
+  </ProductUrl>
+  <UrlBase>
+  <![CDATA[http://www.tsaritsyno.ru]]>
+  </UrlBase>
+  <ProductName>
+  <![CDATA[//div[@class='product-card-area-left']/h2]]>
+  </ProductName>
+ 
+  <ProductImage takenAttrubute="src">
+   <![CDATA[//div[@class='product-card-img']/img]]>
+  </ProductImage>
+</rules>

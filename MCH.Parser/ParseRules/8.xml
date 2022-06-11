@@ -11,7 +11,7 @@
   <![CDATA[https://www.meridian.ru]]>
   </UrlBase>
   <ProductName>
-  <![CDATA[//div[@class='h1']]]>
+  <![CDATA[//div[@class='content-col-wrap product-description']/h1]]>
   </ProductName>
   <ProductImage takenAttrubute="src">
   <![CDATA[//img[@class='detail_picture']]]>
