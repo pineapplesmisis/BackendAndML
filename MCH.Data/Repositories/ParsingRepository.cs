@@ -167,6 +167,11 @@ namespace MCH.Core.Parsing
             _logger.LogInformation($"Adding url to parse: {urlsToParse.Url}. CompanyId: {urlsToParse.CompanyId}");
             await _context.UrlsToParseEntities.AddAsync(urlsToParse);
         }
-        
+
+        public int CountProducts(int companyId)
+        {
+            return _context.ProductEntities
+                .Count(p => p.CompanyId == companyId);
+        }
     }
 }

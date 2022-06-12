@@ -50,5 +50,13 @@ namespace MCH.API.Controllers
             _logger.LogDebug($"Query to get products. Query: {query}");
             return Ok(_unitOfWork.parsingRepository.GetProductsbyQuery(query, count, offset));
         }
+
+        [HttpGet]
+        [Route("countProducts")]
+        public async Task<ActionResult> GetCountProducts(int companyId)
+        {
+            _logger.LogDebug($"Query to get count project by companyId: {companyId}");
+            return Ok(_unitOfWork.parsingRepository.CountProducts(companyId));
+        }
     }
 }

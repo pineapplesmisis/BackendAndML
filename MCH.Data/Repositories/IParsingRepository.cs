@@ -29,6 +29,8 @@ namespace MCH.Core.Parsing
         
 
         Task AddUrlToParseAsync(UrlsToParseEntity urlsToParse);
-        
+
+        int CountProducts(int companyId);
+
     }
 }
