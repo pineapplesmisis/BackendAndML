@@ -33,7 +33,7 @@ namespace MCH.Core.Parsing
 
         int CountProducts(int companyId);
 
-        ProductEntity GetProductById(int productId);
+        IEnumerable<ProductEntity> GetProductById(int productId);
 
     }
 }

@@ -175,12 +175,12 @@ namespace MCH.Core.Parsing
                 .Count(p => p.CompanyId == companyId);
         }
 
-        public ProductEntity GetProductById(int productId)
+        public IEnumerable<ProductEntity> GetProductById(int productId)
         {
             _logger.LogInformation($"Getting product with Id: {productId}");
             return _context.ProductEntities
                 .Include(p => p.Images)
-                .FirstOrDefault(p => p.Id == productId);
+                .Where(p => p.Id == productId);
         }
     }
 }
