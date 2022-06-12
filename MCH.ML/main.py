@@ -25,7 +25,7 @@ def read_root():
 
 @app.get("/api/ml/searchProducts/{query}")
 def read_item(query: str):
-    return hnsw.search_by_query(query)
+    print(hnsw.search_by_query(query))
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
