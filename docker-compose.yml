@@ -9,13 +9,6 @@ services:
     ports:
       - 5000:80
       
-  ml.api:
-    build:
-      context: ./MCH.ML
-      dockerfile: Dockerfile
-      
-    ports:
-      - 5001:8000
 
   nginx:
     image: nginx:latest

@@ -11,8 +11,8 @@ services:
       
   ml.api:
     build:
-      context: .
-      dockerfile: MCH.ML/Dockerfile
+      context: ./MCH.ML
+      dockerfile: Dockerfile
       
     ports:
       - 5001:8000
