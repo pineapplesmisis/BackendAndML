@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <rules>
   <ListProductsUrl>
-  <item><![CDATA[https://www.estet.ru/]]></item>
+  <item><![CDATA[http://www.saav.ru/]]></item>
   <item><![CDATA[\/catalog\/]]></item>
-  <item><![CDATA[\/catalog\/(\w+)\/]]></item>
+  <item><![CDATA[\/catalog\/\?PAGEN_(\d+)=(\d+)]]></item>
   </ListProductsUrl>
   <ProductUrl>
-   <item><![CDATA[\/catalog\/(\w+)\/(\d+)\/\?oid=(\d+)]]></item>
+   <item><![CDATA[\/catalog\/tovar\/([\d_]+)\/]]></item>
   </ProductUrl>
   <UrlBase>
-  <![CDATA[https://www.estet.ru]]>
+  <![CDATA[http://www.saav.ru]]>
   </UrlBase>
   <ProductName>
-  <![CDATA[//h1[@class='page_title']/h2]]>
+  <![CDATA[//div[contains(@class,'bx')]/h1]]>
   </ProductName>
  <ProductPrice>
-   <![CDATA[//span[@class='price_value']]]>
+    <![CDATA[//span[contains(@class, 'js-product-price')]]]>
   </ProductPrice>
   <ProductDescription>
-  <![CDATA[//div[@itemprop='description']]]>
+    <![CDATA[//div[@class='item_info_section']]]>
   </ProductDescription>
-  <ProductImage takenAttrubute="data-src">
-   <![CDATA[//img[contains(@class, 'product-detail-gallery')]]]>
+  <ProductImage takenAttrubute="src">
+    <![CDATA[//span[@class='bx_bigimages_aligner']/img]]>
   </ProductImage>
 </rules>

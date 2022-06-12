@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <rules>
   <ListProductsUrl>
-  <item><![CDATA[https://www.cheremushki.shop/]]></item>
+  <item><![CDATA[https://www.estet.ru/]]></item>
   <item><![CDATA[\/catalog\/]]></item>
-  <item><![CDATA[\/catalog\/([\w_]+)\/]]></item>
+  <item><![CDATA[\/catalog\/(\w+)\/]]></item>
   </ListProductsUrl>
   <ProductUrl>
-   <item><![CDATA[\/catalog\/([\w_]+)\/([\w_]+)\/(\d+)\/]]></item>
+   <item><![CDATA[\/catalog\/(\w+)\/(\d+)\/\?oid=(\d+)]]></item>
   </ProductUrl>
   <UrlBase>
-  <![CDATA[https://www.cheremushki.shop]]>
+  <![CDATA[https://www.estet.ru]]>
   </UrlBase>
   <ProductName>
-  <![CDATA[//h1[@id='pagetitle']]]>
+  <![CDATA[//h1[@class='page_title']/h2]]>
   </ProductName>
  <ProductPrice>
    <![CDATA[//span[@class='price_value']]]>
   </ProductPrice>
   <ProductDescription>
-  <![CDATA[//div[@class='properties__value darken properties__item--inline']]]>
+  <![CDATA[//div[@itemprop='description']]]>
   </ProductDescription>
-  <ProductImage takenAttrubute="src">
-   <![CDATA[//img[@class='lazy product-detail-gallery__picture ']]]>
+  <ProductImage takenAttrubute="data-src">
+   <![CDATA[//img[contains(@class, 'product-detail-gallery')]]]>
   </ProductImage>
 </rules>

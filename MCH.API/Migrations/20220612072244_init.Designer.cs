@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MCH.API.Migrations
 {
     [DbContext(typeof(ProductionInfoDbContext))]
-    [Migration("20220611165529_add autoincrements")]
-    partial class addautoincrements
+    [Migration("20220612072244_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

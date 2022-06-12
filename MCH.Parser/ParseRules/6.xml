@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <rules>
   <ListProductsUrl>
-  <item><![CDATA[\/catalog\/]]></item>
+  <item><![CDATA[\/products\/]]></item>
+  <item><![CDATA[\/products\/([\w\+]+)+\/]]></item>
   </ListProductsUrl>
   <ProductUrl>
-   <item><![CDATA[\/assortment\/catalog\/(.+)\/]]></item>
+   <item><![CDATA[\/products\/([\w\+]+)\/(\w+)\/]]></item>
   </ProductUrl>
   <UrlBase>
-  <![CDATA[https://www.uniconf.ru]]>
+  <![CDATA[http://www.tsaritsyno.ru]]>
   </UrlBase>
   <ProductName>
-  <![CDATA[//title]]>
+  <![CDATA[//div[@class='product-card-area-left']/h2]]>
   </ProductName>
-  <ProductDescription takenAttrubute="content">
-  <![CDATA[//meta[@name='description']]]>
-  </ProductDescription>
-  
+ 
   <ProductImage takenAttrubute="src">
-   <![CDATA[//div[@class='full']/img]]>
+   <![CDATA[//div[@class='product-card-img']/img]]>
   </ProductImage>
 </rules>

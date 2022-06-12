@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <rules>
   <ListProductsUrl>
-  <item><![CDATA[https://kalorifer-atexa.ru\/#block-(\w+)]]></item>
-   <item><![CDATA[https://kalorifer-atexa.ru]]></item>
+  <item><![CDATA[\/product\/]]></item>
+  <item><![CDATA[\/product\/(\w+)\/]]></item>
   </ListProductsUrl>
   <ProductUrl>
-   <item><![CDATA[\/products\/([^\/]+)]]></item>
+   <item><![CDATA[\/product\/(\w+)\/(\w+)\.php]]></item>
   </ProductUrl>
   <UrlBase>
-  <![CDATA[https://kalorifer-atexa.ru]]>
+  <![CDATA[https://www.meridian.ru]]>
   </UrlBase>
   <ProductName>
-  <![CDATA[//div[@class='product-text']/h2]]>
+  <![CDATA[//div[@class='content-col-wrap product-description']/h1]]>
   </ProductName>
   <ProductImage takenAttrubute="src">
-  <![CDATA[//div[@class='product_page']/div/div/div/div/div/div//img]]>
+  <![CDATA[//img[@class='detail_picture']]]>
   </ProductImage>
 </rules>

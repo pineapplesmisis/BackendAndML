@@ -12,6 +12,7 @@ namespace MCH
         public HttpRequests()
         {
             _client = new();
+            _client.DefaultRequestHeaders.Clear();
         }
         public async  Task<string> CreateRequest(Uri  url)
         {

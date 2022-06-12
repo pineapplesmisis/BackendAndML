@@ -49,7 +49,7 @@ namespace MCH
             {
                 var unitOfWork = scope.ServiceProvider.GetService<IUnitOfWork>();
                 return unitOfWork.parsingRepository.getAllCompanies()
-                    .Skip(10).ToList();
+                    .Skip(0).ToList();
 
             }
         }

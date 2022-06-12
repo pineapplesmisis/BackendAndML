@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <rules>
   <ListProductsUrl>
-  <item><![CDATA[\/catalog]]></item>
-  <item><![CDATA[\/watches\/(\w+)\/]]></item>
+  <item><![CDATA[\/katalog\/([\w-]+)\/]]></item>
+  <item><![CDATA[\/katalog\/([\w-]+)\/([\w-]+)\/]]></item>
+   <item><![CDATA[\/katalog\/]]></item>
   </ListProductsUrl>
   <ProductUrl>
-   <item><![CDATA[\/watches\/*\/(\w+)\/(\d+)]]></item>
+   <item><![CDATA[\/katalog\/([\w-]+)\/([\w-]+)\/([\w-]+)\/]]></item>
   </ProductUrl>
   <UrlBase>
-  <![CDATA[https://nikawatches.ru/]]>
+  <![CDATA[https://www.cherkizovo.ru]]>
   </UrlBase>
   <ProductName>
-  <![CDATA[//div[@class='h1']]]>
+  <![CDATA[//h1[@class='detail-card-title']]]>
   </ProductName>
-  <ProductPrice  takenAttrubute="content">
-   <![CDATA[//meta[@itemprop='price']]]>
-  </ProductPrice>
-  <ProductImage takenAttrubute="href">
-  <![CDATA[//a[@class='active image_change mob_slide']]]>
-  </ProductImage>
-  <ProductDescription>
-  <![CDATA[//div[@class='cut_text']]]>
+  <ProductDescription >
+  <![CDATA[//div[@class='details-short-description']]]>
   </ProductDescription>
+  
+  <ProductImage takenAttrubute="src">
+   <![CDATA[//img[@class='slider-img']]]>
+  </ProductImage>
 </rules>

@@ -88,7 +88,17 @@ namespace MCH.Parsers
                 return;
             }
             _checkedLinks[url] = 1;
-            var body = await _requests.CreateRequest(new Uri(url));
+            var body = string.Empty;
+
+            try
+            {
+                body = await _requests.CreateRequest(new Uri(url));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug($"Error while send http request to: {url}. Message: {ex.Message}");
+                return;
+            }
             
             var productUrls = getProductUrls(body, rules);
 
