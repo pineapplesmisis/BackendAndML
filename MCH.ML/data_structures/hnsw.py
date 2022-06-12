@@ -8,7 +8,7 @@ import pickle
 
 from sklearn.decomposition import TruncatedSVD
 
-from models import SbertWrapper, mean_pooling, get_embedding_from_link
+from Models import SbertWrapper, mean_pooling, get_embedding_from_link
 
 
 class HnswWrapper:

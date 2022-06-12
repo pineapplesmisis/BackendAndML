@@ -1,4 +1,7 @@
 import torch
+torch.cuda.empty_cache()
+import gc
+gc.collect()
 from transformers import AutoTokenizer, AutoModel
 
 
