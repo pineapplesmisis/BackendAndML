@@ -41,7 +41,7 @@ namespace MCH.API.Controllers
             try
             {
 
-                await _unitOfWork.parsingRepository.CrateUrlToParseAsync(ulrToParseEntity);
+                await _unitOfWork.parsingRepository.AddUrlToParseAsync(ulrToParseEntity);
                 await _unitOfWork.CommitAsync();
                 return Ok(ulrToParseEntity);
             }

@@ -21,7 +21,7 @@ namespace MCH.API.Validation
 
         private  bool IsCompanyExist(int companyId)
         {
-            var company = _unitOfWork.parsingRepository.GetCompanyById(companyId);
+            var company = _unitOfWork.parsingRepository.getCompanyEntity(companyId);
             return company is not null;
         }
     }

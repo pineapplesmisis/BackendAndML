@@ -46,7 +46,7 @@ namespace MCH.API.Controllers
             };
             try
             {
-                await _unitOfWork.parsingRepository.CrateCompany(companyEntity);
+                await _unitOfWork.parsingRepository.AddCompanyAsync(companyEntity);
                 await _unitOfWork.CommitAsync();
                 return Ok(companyEntity);
             }

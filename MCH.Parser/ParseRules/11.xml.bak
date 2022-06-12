@@ -2,9 +2,9 @@
 <rules>
   <ListProductsUrl>
   <item><![CDATA[https://startkid.ru/]]></item>
-  <item><![CDATA[\/categories\/([\w_]+)]]></item>
-  <item><![CDATA[\/categories\/([\w_]+)\?page=(\d+)]]></item>
-  <item><![CDATA[\/categories\/([\w_]+)\/([\w-]+)]]></item>
+  <item><![CDATA[\/([\w_]+)\/([\w_]+)]]></item>
+  <item><![CDATA[\/([\w_]+)\/([\w_]+)\?page=(\d+)]]></item>
+  <item><![CDATA[\/([\w_]+)\/([\w_]+)\/([\w-]+)]]></item>
   </ListProductsUrl>
   <ProductUrl>
    <item><![CDATA[\/(products)\/([\w_-]+)]]></item>

@@ -19,18 +19,36 @@ namespace MCH.API.Controllers
 
         [HttpGet]
         [Route("productsByCompany")]
-        public async Task<ActionResult> GetProducts(int id, int count = 100)
+        public async Task<ActionResult> GetProducts(int id, int count = 100, int offset = 0)
         {
+            if (count <= 0)
+            {
+                return BadRequest("Количество запрашиваемых товаров должно быть положительным");
+            }
+
+            if (offset < 0)
+            {
+                return BadRequest("Смещение должно быть больше или равно нулю");
+            }
             _logger.LogDebug($"Query to get products. CompanyId: {id}");
-            return Ok(_unitOfWork.parsingRepository.GetProductsByCompany(id, count));
+            return Ok(_unitOfWork.parsingRepository.GetProductsByCompany(id, count, offset));
         }
         
         [HttpGet]
         [Route("productsByQuery")]
-        public async Task<ActionResult> GetProductsByQuery(string query, int count = 100)
+        public async Task<ActionResult> GetProductsByQuery(string query, int count = 100, int offset = 0)
         {
+            if (count <= 0)
+            {
+                return BadRequest("Количество запрашиваемых товаров должно быть положительным");
+            }
+
+            if (offset < 0)
+            {
+                return BadRequest("Смещение должно быть больше или равно нулю");
+            }
             _logger.LogDebug($"Query to get products. Query: {query}");
-            return Ok(_unitOfWork.parsingRepository.GetProductsbyQuery(query, count));
+            return Ok(_unitOfWork.parsingRepository.GetProductsbyQuery(query, count, offset));
         }
     }
 }

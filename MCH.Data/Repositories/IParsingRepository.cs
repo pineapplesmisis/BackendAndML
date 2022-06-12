@@ -8,8 +8,10 @@ namespace MCH.Core.Parsing
 {
     public interface IParsingRepository
     {
-        Task SaveProductAsync(ProductEntity product);
-        Task SaveCompanyAsync(CompanyEntity company);
+        Task AddProductAsync(ProductEntity product);
+
+        Task AddOrUpdateProductAsync(ProductEntity productEntity);
+        Task AddCompanyAsync(CompanyEntity company);
 
         IEnumerable<CompanyEntity> getAllCompanies();
 
@@ -17,18 +19,15 @@ namespace MCH.Core.Parsing
 
         CompanyEntity getCompanyEntity(int Id);
 
-        Task AddImageAsync(ImageEntity image);
+        Task AddImageIfNotExistAsync(ImageEntity image);
+        
 
-        IEnumerable<CompanyEntity> GetCompanies();
+        IEnumerable<ProductEntity> GetProductsByCompany(int companyId, int count, int offset);
 
-        IEnumerable<ProductEntity> GetProductsByCompany(int companyId, int count);
+        IEnumerable<ProductEntity> GetProductsbyQuery(string query, int count, int offset);
+        
 
-        IEnumerable<ProductEntity> GetProductsbyQuery(string query, int count);
-
-        Task CrateCompany(CompanyEntity companyEntity);
-
-        Task CrateUrlToParseAsync(UrlsToParseEntity urlsToParse);
-
-        CompanyEntity GetCompanyById(int Id);
+        Task AddUrlToParseAsync(UrlsToParseEntity urlsToParse);
+        
     }
 }

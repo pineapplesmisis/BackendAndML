@@ -120,7 +120,6 @@ namespace MCH.Parsers
                 {
                     _url = rules.UrlBase + _url;
                 }
-                
                 await ParseListProducts(_url, rules);
             }
 
@@ -208,9 +207,8 @@ namespace MCH.Parsers
                     {
                         if (!string.IsNullOrEmpty(rules.ProductImage.TakenAttrubute))
                         {
-                            var imageUrl1 = img.First();
                             var imageUrl = img.First().Attributes[rules.ProductImage.TakenAttrubute]?.Value;
-                            if (!imageUrl.Contains(rules.UrlBase))
+                            if (imageUrl is not null && !imageUrl.Contains(rules.UrlBase))
                             {
                                 imageUrl = rules.UrlBase + imageUrl;
                             }
@@ -230,6 +228,7 @@ namespace MCH.Parsers
             }
             catch (Exception ex)
             {
+              
                 _logger.LogError($"Error while parsing product. Url: {url}. Message: {ex.Message}");
             }
         }
@@ -256,13 +255,12 @@ namespace MCH.Parsers
                             Description = TextCleaner.CleanString(product.Description),
                             Url = url
                         };
-                        await unitOfWork.parsingRepository.SaveProductAsync(productEntity);
-
-                        var prodId = await unitOfWork.CommitAsync();
-
-                        if (product.Image is not null)
+                    
+                        await unitOfWork.parsingRepository.AddOrUpdateProductAsync(productEntity);
+                        await unitOfWork.CommitAsync();
+                        if (product.Image is not null && productEntity.Id != 0)
                         {
-                            await unitOfWork.parsingRepository.AddImageAsync(new()
+                            await unitOfWork.parsingRepository.AddImageIfNotExistAsync(new()
                             {
                                 Url = product.Image,
                                 ProductId = productEntity.Id

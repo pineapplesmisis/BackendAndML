@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <rules>
   <ListProductsUrl>
-  <item><![CDATA[https://unionc.ru/]]></item>
+  <item><![CDATA[https://unionc.ru]]></item>
   <item><![CDATA[\/catalog\/([\w-]+)\/]]></item>
   <item><![CDATA[\/catalog\/([\w-]+)\/([\w-]+)\/]]></item>
   <item><![CDATA[\/catalog\/([\w-]+)\/\?PAGEN_(\w+)=(\w+)]]></item>
@@ -17,7 +17,7 @@
   <![CDATA[//h1[@class='changeName']]]>
   </ProductName>
  <ProductPrice>
-    <![CDATA[//span[contains(@class, 'js-product-price')]]]>
+    <![CDATA[//span[contains(@class, 'priceVal')]/span/span]]>
   </ProductPrice>
   <ProductDescription takenAttrubute="data-first-value">
     <![CDATA[//div[@class='changeShortDescription']]]>
