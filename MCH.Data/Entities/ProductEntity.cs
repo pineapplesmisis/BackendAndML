@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using MCH.Parset.Data.Entities;
 
 namespace MCH.Data.Entities
@@ -14,6 +15,7 @@ namespace MCH.Data.Entities
         public  string Description { get; set; }
         public  int CompanyId { get; set; }
         public  string Url { get; set; }
+        [JsonIgnore]
         public virtual  CompanyEntity company { get; set; }
         public  virtual  IEnumerable<ImageEntity> Images { get; set; }
     }

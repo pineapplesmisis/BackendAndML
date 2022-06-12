@@ -133,7 +133,8 @@ namespace MCH.Core.Parsing
         {
             _logger.LogInformation($"Getting top {count} product of company with id: {companyId}");
             var result = new ProductsListResponse();
-           result.products =  _context.ProductEntities.FromSqlRaw($"SELECT * FROM \"ProductEntities\" WHERE \"CompanyId\" = {companyId} LIMIT {count} OFFSET {offset}");
+           result.products =  _context.ProductEntities.FromSqlRaw($"SELECT * FROM \"ProductEntities\" WHERE \"CompanyId\" = {companyId} LIMIT {count} OFFSET {offset}")
+               .Include(p => p.Images);
            result.TotalProjects =   _context.ProductEntities.FromSqlRaw($"SELECT * FROM \"ProductEntities\" WHERE \"CompanyId\" = {companyId}").Count();
            return result;
         }
@@ -149,7 +150,9 @@ namespace MCH.Core.Parsing
         {
             _logger.LogInformation($"Getting top {count} product for query: {query}");
             var result = new ProductsListResponse();
-            result.products =  _context.ProductEntities.FromSqlRaw($"SELECT * FROM \"ProductEntities\" LIMIT {count} OFFSET {offset}");
+            result.products = _context.ProductEntities
+                .FromSqlRaw($"SELECT * FROM \"ProductEntities\" LIMIT {count} OFFSET {offset}")
+                .Include(p => p.Images);
             result.TotalProjects =   _context.ProductEntities.FromSqlRaw($"SELECT  * FROM \"ProductEntities\"").Count();
             return result;
         }
