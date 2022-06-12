@@ -57,7 +57,7 @@ class HnswWrapper:
 
         labels, distances = self.query_graph.knn_query(emb, k=k)
         prodIds = []
-        for id in prodIds[0]:
+        for id in labels[0]:
             prodIds.append(id)
         return prodIds
 
