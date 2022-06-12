@@ -56,7 +56,7 @@ class HnswWrapper:
         emb = self.svd_name_query.transform(emb.cpu())
 
         labels, distances = self.query_graph.knn_query(emb, k=k)
-        return labels, distances
+        return labels
 
     def del_product(self):
         pass
