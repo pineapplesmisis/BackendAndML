@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MCH.API.Controllers
 {
-    [Microsoft.AspNetCore.Components.Route("api/companies")]
+    [Route("api/companies")]
     public class CompaniesController: Controller
     {
         private readonly IUnitOfWork _unitOfWork;

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MCH.API.Models;
 using MCH.Data.Entities;
 using MCH.Parset.Data.Entities;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace MCH.Core.Parsing
 {
@@ -31,6 +32,8 @@ namespace MCH.Core.Parsing
         Task AddUrlToParseAsync(UrlsToParseEntity urlsToParse);
 
         int CountProducts(int companyId);
+
+        ProductEntity GetProductById(int productId);
 
     }
 }

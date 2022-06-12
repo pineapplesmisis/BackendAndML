@@ -170,8 +170,16 @@ namespace MCH.Core.Parsing
 
         public int CountProducts(int companyId)
         {
+            _logger.LogInformation($"Getting count products of company:{companyId}");
             return _context.ProductEntities
                 .Count(p => p.CompanyId == companyId);
+        }
+
+        public ProductEntity GetProductById(int productId)
+        {
+            _logger.LogInformation($"Getting product with Id: {productId}");
+            return _context.ProductEntities
+                .FirstOrDefault(p => p.Id == productId);
         }
     }
 }

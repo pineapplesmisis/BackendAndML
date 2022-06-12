@@ -30,7 +30,7 @@ namespace MCH.API.Controllers
             {
                 return BadRequest("Смещение должно быть больше или равно нулю");
             }
-            _logger.LogDebug($"Query to get products. CompanyId: {id}");
+            _logger.LogInformation($"Query to get products. CompanyId: {id}");
             return Ok(_unitOfWork.parsingRepository.GetProductsByCompany(id, count, offset));
         }
         
@@ -47,7 +47,7 @@ namespace MCH.API.Controllers
             {
                 return BadRequest("Смещение должно быть больше или равно нулю");
             }
-            _logger.LogDebug($"Query to get products. Query: {query}");
+            _logger.LogInformation($"Query to get products. Query: {query}");
             return Ok(_unitOfWork.parsingRepository.GetProductsbyQuery(query, count, offset));
         }
 
@@ -55,8 +55,22 @@ namespace MCH.API.Controllers
         [Route("countProducts")]
         public async Task<ActionResult> GetCountProducts(int companyId)
         {
-            _logger.LogDebug($"Query to get count project by companyId: {companyId}");
+            _logger.LogInformation($"Query to get count project by companyId: {companyId}");
             return Ok(_unitOfWork.parsingRepository.CountProducts(companyId));
+        }
+
+        [HttpGet]
+        [Route("getById")]
+        public async Task<ActionResult> GetProductById(int Id)
+        {
+            _logger.LogInformation($"Query to get product with id: {Id}");
+            var product = _unitOfWork.parsingRepository.GetProductById(Id);
+            if (product is not null)
+            {
+                return Ok(product);
+            }
+
+            return NotFound("Product not found");
         }
     }
 }
