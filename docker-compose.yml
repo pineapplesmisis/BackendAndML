@@ -9,13 +9,6 @@ services:
     ports:
       - 5000:80
       
-  mch.parser:
-     image: ${DOCKER_REGISTRY-}mchaparser
-    build:
-      context: .
-      dockerfile: MCH.PARSER/Dockerfile
-    
-
   nginx:
     image: nginx:latest
     volumes:
