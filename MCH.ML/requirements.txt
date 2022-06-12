@@ -15,3 +15,5 @@ pillow
 pandas
 hnswlib
 pickle-mixin
+pydantic
+typing

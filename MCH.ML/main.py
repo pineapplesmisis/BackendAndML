@@ -1,7 +1,8 @@
 from fastapi import FastAPI
-#from Data.DataRepository import DataRepository
+from Models.ProductsIds import  ProductsIds
 from data_structures.hnsw import HnswWrapper
 import uvicorn
+
 
 app = FastAPI()
 
@@ -24,8 +25,11 @@ def read_root():
     #return  product
 
 @app.get("/api/ml/searchProducts/{query}")
-def read_item(query: str):
-    return hnsw.search_by_query(query)[0].tolist()
+def searchByQuery(query: str):
+    ids = hnsw.search_by_query(query)[0].tolist()
+    result = ProductsIds()
+    result.Ids = ids
+    return  result
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
