@@ -9,13 +9,13 @@ services:
     ports:
       - 5000:80
       
-  mch.ml:
-    image: ${DOCKER_REGISTRY-}mchml
-    build:
-      context: ./MCH.ML
-      dockerfile: Dockerfile
-    ports:
-      - 5001:8000
+ # mch.ml:
+  #  image: ${DOCKER_REGISTRY-}mchml
+  #  build:
+  #    context: ./MCH.ML
+  #    dockerfile: Dockerfile
+  #  ports:
+  #    - 5001:8000
       
   nginx:
     image: nginx:latest
