@@ -1,7 +1,10 @@
 using System.Threading.Tasks;
 using CheckersBackend.Data;
+using MCH.API.Configuration;
+using MCH.API.ExternalServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace MCH.API.Controllers
 {
@@ -10,11 +13,13 @@ namespace MCH.API.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<ProductsController> _logger;
+        private readonly MlApi _mlApi;
 
-        public ProductsController(IUnitOfWork unitOfWork, ILogger<ProductsController> logger)
+        public ProductsController(IUnitOfWork unitOfWork, ILogger<ProductsController> logger, IOptions<AppSettings> settings)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _mlApi = new(settings.Value.MlApiUrl);
         }
 
         [HttpGet]
@@ -36,19 +41,11 @@ namespace MCH.API.Controllers
         
         [HttpGet]
         [Route("productsByQuery")]
-        public async Task<ActionResult> GetProductsByQuery(string query, int count = 100, int offset = 0)
+        public async Task<ActionResult> GetProductsByQuery(string query)
         {
-            if (count <= 0)
-            {
-                return BadRequest("Количество запрашиваемых товаров должно быть положительным");
-            }
-
-            if (offset < 0)
-            {
-                return BadRequest("Смещение должно быть больше или равно нулю");
-            }
             _logger.LogInformation($"Query to get products. Query: {query}");
-            return Ok(_unitOfWork.parsingRepository.GetProductsbyQuery(query, count, offset));
+            var Ids = await _mlApi.getProductIdsByQuery(query);
+            return Ok(_unitOfWork.parsingRepository.GetProductsByListId(Ids));
         }
 
         [HttpGet]

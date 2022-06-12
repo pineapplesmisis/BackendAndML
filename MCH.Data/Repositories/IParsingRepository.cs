@@ -35,5 +35,7 @@ namespace MCH.Core.Parsing
 
         IEnumerable<ProductEntity> GetProductById(int productId);
 
+        IEnumerable<ProductEntity> GetProductsByListId(ProductIds ids);
+
     }
 }

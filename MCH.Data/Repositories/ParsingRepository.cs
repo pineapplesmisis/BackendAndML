@@ -182,5 +182,18 @@ namespace MCH.Core.Parsing
                 .Include(p => p.Images)
                 .Where(p => p.Id == productId);
         }
+
+        
+        /// <summary>
+        /// Возвращает список товаров по набоку Id 
+        /// </summary>
+        /// <param name="productIds">Список Id товаров</param>
+        /// <returns></returns>
+        public IEnumerable<ProductEntity> GetProductsByListId(ProductIds productIds)
+        {
+            _logger.LogInformation($"Getting products with Ids:{string.Join(", ",productIds.Ids)}");
+            return _context.ProductEntities
+                .Where(p => productIds.Ids.Contains(p.Id));
+        }
     }
 }
