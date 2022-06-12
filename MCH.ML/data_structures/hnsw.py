@@ -27,7 +27,7 @@ class HnswWrapper:
 
         self.text2vec = SbertWrapper(True)
 
-        self.img2vec = Img2Vec(cuda=True, model="vgg")
+        self.img2vec = Img2Vec(cuda=False, model="vgg")
 
         with open('svd_name_query.pickle', 'rb') as f:
             self.svd_name_query = pickle.load(f)
