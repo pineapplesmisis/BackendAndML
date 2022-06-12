@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MCH.API.Models;
 using MCH.Data.Entities;
 using MCH.Parset.Data.Entities;
 
@@ -22,9 +23,9 @@ namespace MCH.Core.Parsing
         Task AddImageIfNotExistAsync(ImageEntity image);
         
 
-        IEnumerable<ProductEntity> GetProductsByCompany(int companyId, int count, int offset);
+        ProductsListResponse GetProductsByCompany(int companyId, int count, int offset);
 
-        IEnumerable<ProductEntity> GetProductsbyQuery(string query, int count, int offset);
+        ProductsListResponse GetProductsbyQuery(string query, int count, int offset);
         
 
         Task AddUrlToParseAsync(UrlsToParseEntity urlsToParse);

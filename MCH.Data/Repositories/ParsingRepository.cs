@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using MCH.API.Models;
 using MCH.Data;
 using MCH.Data.Entities;
 using MCH.Parset.Data.Entities;
@@ -128,15 +129,13 @@ namespace MCH.Core.Parsing
         /// <param name="count">Максимальное количество продуктов</param>
         /// <param name="offset">Количество пропускаемых сообщений (смещение)</param>
         /// <returns></returns>
-        public IEnumerable<ProductEntity> GetProductsByCompany(int companyId, int count, int offset)
+        public ProductsListResponse GetProductsByCompany(int companyId, int count, int offset)
         {
             _logger.LogInformation($"Getting top {count} product of company with id: {companyId}");
-            return _context.ProductEntities
-                .Include(p => p.Images)
-                .Where(p => p.CompanyId == companyId)
-                .ToList()
-                .Skip(offset)
-                .Take(count);
+            var result = new ProductsListResponse();
+           result.products =  _context.ProductEntities.FromSqlRaw($"SELECT * FROM \"ProductEntities\" WHERE \"CompanyId\" = {companyId} LIMIT {count} OFFSET {offset}");
+           result.TotalProjects =   _context.ProductEntities.FromSqlRaw($"SELECT * FROM \"ProductEntities\" WHERE \"CompanyId\" = {companyId}").Count();
+           return result;
         }
 
         /// <summary>
@@ -146,14 +145,13 @@ namespace MCH.Core.Parsing
         /// <param name="count">Максимальное количество продуктов</param>
         /// <param name="offset">Количество пропускаемых сообщений (смещение)</param>
         /// <returns></returns>
-        public IEnumerable<ProductEntity> GetProductsbyQuery(string query, int count, int offset)
+        public ProductsListResponse GetProductsbyQuery(string query, int count, int offset)
         {
-            _logger.LogInformation($"Getting top: {count} products for query: {query}");
-            return _context.ProductEntities
-                .Include(p => p.Images)
-                .ToList()
-                .Skip(offset)
-                .Take(count);
+            _logger.LogInformation($"Getting top {count} product for query: {query}");
+            var result = new ProductsListResponse();
+            result.products =  _context.ProductEntities.FromSqlRaw($"SELECT * FROM \"ProductEntities\" LIMIT {count} OFFSET {offset}");
+            result.TotalProjects =   _context.ProductEntities.FromSqlRaw($"SELECT  * FROM \"ProductEntities\"").Count();
+            return result;
         }
         
 
