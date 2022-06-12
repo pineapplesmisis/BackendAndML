@@ -14,4 +14,4 @@ tqdm
 pillow
 pandas
 hnswlib
-pickle
+pickle-mixin

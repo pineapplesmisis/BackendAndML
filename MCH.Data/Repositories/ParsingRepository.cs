@@ -179,6 +179,7 @@ namespace MCH.Core.Parsing
         {
             _logger.LogInformation($"Getting product with Id: {productId}");
             return _context.ProductEntities
+                .Include(p => p.Images)
                 .FirstOrDefault(p => p.Id == productId);
         }
     }

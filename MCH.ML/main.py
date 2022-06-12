@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+'''from fastapi import FastAPI
 from Data.DataRepository import DataRepository
 
 app = FastAPI()
@@ -18,4 +18,13 @@ def read_item(product_id: int,count: int):
 
 @app.get("/api/ml/searchProducts/{query}")
 def read_item(query: str):
-    products = data.getProducts()
+    products = data.getProducts()'''
+
+from data_structures.hnsw import HnswWrapper
+
+
+hnsw = HnswWrapper()
+file_name = "search_hnsw_last.npy"
+file_db_indexes = "db_indexes.npy"
+hnsw.make_query_graph(file_name, file_db_indexes)
+print(hnsw.search_by_query("часики"))
