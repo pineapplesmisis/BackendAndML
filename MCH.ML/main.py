@@ -9,7 +9,7 @@ app = FastAPI()
 #data = DataRepository()
 
 hnsw = HnswWrapper()
-file_name = "search_hnsw_last.npy"
+file_name = "search_hnsw.npy"
 file_db_indexes = "db_indexes.npy"
 hnsw.make_query_graph(file_name, file_db_indexes)
 
