@@ -47,9 +47,10 @@ namespace MCH
         { 
             using (var scope = _serviceScopeFactory.CreateScope())
             {
+              
                 var unitOfWork = scope.ServiceProvider.GetService<IUnitOfWork>();
                 return unitOfWork.parsingRepository.getAllCompanies()
-                    .Skip(15).ToList();
+                    .Where(t => t.IsParse).ToList();
 
             }
         }

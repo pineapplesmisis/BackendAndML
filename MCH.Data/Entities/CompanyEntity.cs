@@ -15,6 +15,7 @@ namespace MCH.Parset.Data.Entities
         public  string CompanyName { get; set; }
         public  string IIN { get; set; }
         public  string Url { get; set; }
+        public  bool IsParse { get; set; }
         
         [JsonIgnore]
         public  virtual  IEnumerable<ProductEntity > products { get; set; }
