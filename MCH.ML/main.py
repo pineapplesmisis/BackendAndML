@@ -8,6 +8,7 @@ app = FastAPI()
 
 #data = DataRepository()
 
+
 hnsw = HnswWrapper()
 file_name = "search_hnsw.npy"
 file_db_indexes = "db_indexes.npy"
@@ -16,10 +17,6 @@ hnsw.make_query_graph(file_name, file_db_indexes)
 hnsw.make_top_product_graph(file_top, file_db_indexes)
 
 
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
 
 
 @app.get("/api/ml/simiuralProducts/{product_id}/{count}")

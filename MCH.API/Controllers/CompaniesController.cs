@@ -30,7 +30,15 @@ namespace MCH.API.Controllers
         [Route("companies")]
         public async Task<ActionResult> GetAllCompanies()
         {
-            return Ok(_unitOfWork.parsingRepository.getAllCompanies());
+            try
+            {
+                return Ok(_unitOfWork.parsingRepository.getAllCompanies());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("error while getting list of all companies");
+                return BadRequest("Ошибка при получении списка производителей");
+            }
         }
 
         /// <summary>
@@ -63,7 +71,7 @@ namespace MCH.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Error while creating new company. Message: {ex.Message}");
-                return BadRequest("Ошибка во время сохранения компании");
+                return BadRequest("Ошибка во время сохранения производителя");
             }
         }
 
@@ -82,13 +90,21 @@ namespace MCH.API.Controllers
                 return BadRequest("IIN должен состоять из 10 или 12 чисел");
             }
 
-            var company = _unitOfWork.parsingRepository.GetCompanyByIIN(INN);
-            if (company is null)
+            try
             {
-                return NotFound("Произаодителя с таким ИИН нет");
-            }
+                var company = _unitOfWork.parsingRepository.GetCompanyByIIN(INN);
+                if (company is null)
+                {
+                    return NotFound("Произаодителя с таким ИИН нет");
+                }
 
-            return Ok(company);
+                return Ok(company);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error while getting company with INN: {INN}. Message: {ex.Message}");
+                return BadRequest("Ошибка при получении протзводителя");
+            }
         }
     }
 }

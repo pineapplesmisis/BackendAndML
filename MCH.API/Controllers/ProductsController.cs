@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using CheckersBackend.Data;
 using MCH.API.Configuration;
@@ -58,7 +59,15 @@ namespace MCH.API.Controllers
         public async Task<ActionResult> GetProducts(int count, int offset)
         {
             _logger.LogInformation($"Qery get top: {count} products with offset: {offset}");
-            return Ok(_unitOfWork.parsingRepository.GetProducts(count, offset));
+            try
+            {
+                return Ok(_unitOfWork.parsingRepository.GetProducts(count, offset));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Error while getting top: {count} products with offset: {offset}");
+                return BadRequest("Ошибка при получении товаров");
+            }
         }
         
         /// <summary>
@@ -72,8 +81,17 @@ namespace MCH.API.Controllers
         public async Task<ActionResult> GetProductsByQuery(string query, int count = 10)
         {
             _logger.LogInformation($"Query to get products. Query: {query}");
-            var Ids = await _mlApi.getProductIdsByQuery(query, count);
-            return Ok(_unitOfWork.parsingRepository.GetProductsByListId(Ids));
+            try
+            {
+                var Ids = await _mlApi.getProductIdsByQuery(query, count);
+                return Ok(_unitOfWork.parsingRepository.GetProductsByListId(Ids));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Error while getting top: {count} products for query: {query}");
+                return BadRequest("Ошибка при получении товаров");
+            }
+            
         }
 
         /// <summary>
@@ -86,7 +104,16 @@ namespace MCH.API.Controllers
         public async Task<ActionResult> GetCountProducts(int companyId)
         {
             _logger.LogInformation($"Query to get count project by companyId: {companyId}");
-            return Ok(_unitOfWork.parsingRepository.CountProducts(companyId));
+            try
+            {
+                return Ok(_unitOfWork.parsingRepository.CountProducts(companyId));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error while getting count products of company: {companyId}. Message:{ex.Message}");
+                return BadRequest("Ошибка при получении списка товаров");
+
+            }
         }
 
         /// <summary>
@@ -99,13 +126,21 @@ namespace MCH.API.Controllers
         public async Task<ActionResult> GetProductById(int Id)
         {
             _logger.LogInformation($"Query to get product with id: {Id}");
-            var product = _unitOfWork.parsingRepository.GetProductById(Id);
-            if (product is not null)
+            try
             {
-                return Ok(product);
-            }
+                var product = _unitOfWork.parsingRepository.GetProductById(Id);
+                if (product is not null)
+                {
+                    return Ok(product);
+                }
 
-            return NotFound("Product not found");
+                return NotFound("Product not found");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error while getting product with Id: {Id}. Message: {ex.Message}");
+                return BadRequest("Ошибка при получении товара");
+            }
         }
 
         
@@ -120,8 +155,19 @@ namespace MCH.API.Controllers
         public async Task<ActionResult> GetSimularProducts(int productId, int count = 10)
         {
             _logger.LogInformation($"Query to get top: {count} similar product to product with id:{productId}");
-            var Ids = await _mlApi.getSimularProducts(productId, count);
-            return Ok(_unitOfWork.parsingRepository.GetProductsByListId(Ids));
+            try
+            {
+                var Ids = await _mlApi.getSimularProducts(productId, count);
+                return Ok(_unitOfWork.parsingRepository.GetProductsByListId(Ids));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error while getting top: {count} similar products with product with Id:{productId}. Message:{ex.Message}");
+                return BadRequest("Ошибка при получении товаров");
+            }
+            
+            
+           
         }
         
         
