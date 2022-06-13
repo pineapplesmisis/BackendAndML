@@ -19,7 +19,7 @@ namespace MCH.API.Controllers
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
-            _mlApi = new(settings.Value.MlApiUrl);
+            _mlApi = new(settings.Value.MlApiUrl, _logger);
         }
 
 
@@ -27,7 +27,7 @@ namespace MCH.API.Controllers
         /// Получение списка товаров определенного производителя
         /// </summary>
         /// <param name="id">Id производителя</param>
-        /// <param name="count">Количество товаров</param>
+        /// <param name="count">Максимальное количетсво товаров в ответе</param>
         /// <param name="offset">Спещение списка товаров</param>
         /// <returns></returns>
         [HttpGet]
@@ -47,6 +47,12 @@ namespace MCH.API.Controllers
             return Ok(_unitOfWork.parsingRepository.GetProductsByCompany(id, count, offset));
         }
 
+        /// <summary>
+        /// Получение списка товаров без ограничений по производителю
+        /// </summary>
+        /// <param name="count">Максимальное количетсво товаров в ответе</param>
+        /// <param name="offset">Спещение списка товаров</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("")]
         public async Task<ActionResult> GetProducts(int count, int offset)
@@ -55,16 +61,26 @@ namespace MCH.API.Controllers
             return Ok(_unitOfWork.parsingRepository.GetProducts(count, offset));
         }
         
-        
+        /// <summary>
+        /// Получение списка товаров по строковому запросу (aka поиск)
+        /// </summary>
+        /// <param name="query">Поисковой запрос</param>
+        /// <param name="count">Максимальное количество товаров в ответе</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("productsByQuery")]
-        public async Task<ActionResult> GetProductsByQuery(string query)
+        public async Task<ActionResult> GetProductsByQuery(string query, int count = 10)
         {
             _logger.LogInformation($"Query to get products. Query: {query}");
-            var Ids = await _mlApi.getProductIdsByQuery(query);
+            var Ids = await _mlApi.getProductIdsByQuery(query, count);
             return Ok(_unitOfWork.parsingRepository.GetProductsByListId(Ids));
         }
 
+        /// <summary>
+        /// Получение количество товаров у производителя
+        /// </summary>
+        /// <param name="companyId">Id производителя</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("countProducts")]
         public async Task<ActionResult> GetCountProducts(int companyId)
@@ -73,6 +89,11 @@ namespace MCH.API.Controllers
             return Ok(_unitOfWork.parsingRepository.CountProducts(companyId));
         }
 
+        /// <summary>
+        /// Получение товара по Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("getById")]
         public async Task<ActionResult> GetProductById(int Id)
@@ -85,6 +106,22 @@ namespace MCH.API.Controllers
             }
 
             return NotFound("Product not found");
+        }
+
+        
+        /// <summary>
+        /// Позвращает список похожих товаров
+        /// </summary>
+        /// <param name="productId">Id товара</param>
+        /// <param name="count">Максимальное количество товаров в ответе</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("simularProducts")]
+        public async Task<ActionResult> GetSimularProducts(int productId, int count)
+        {
+            _logger.LogInformation($"Query to get top: {count} similar product to product with id:{productId}");
+            var Ids = await _mlApi.getSimularProducts(productId, count);
+            return Ok(_unitOfWork.parsingRepository.GetProductsByListId(Ids));
         }
     }
 }
