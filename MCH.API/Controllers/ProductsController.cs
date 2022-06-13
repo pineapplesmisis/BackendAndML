@@ -110,14 +110,14 @@ namespace MCH.API.Controllers
 
         
         /// <summary>
-        /// Позвращает список похожих товаров
+        /// Возвращает список похожих товаров
         /// </summary>
         /// <param name="productId">Id товара</param>
         /// <param name="count">Максимальное количество товаров в ответе</param>
         /// <returns></returns>
         [HttpGet]
         [Route("simularProducts")]
-        public async Task<ActionResult> GetSimularProducts(int productId, int count)
+        public async Task<ActionResult> GetSimularProducts(int productId, int count = 10)
         {
             _logger.LogInformation($"Query to get top: {count} similar product to product with id:{productId}");
             var Ids = await _mlApi.getSimularProducts(productId, count);

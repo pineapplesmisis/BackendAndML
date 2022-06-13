@@ -48,7 +48,7 @@ namespace MCH.API.ExternalServices
             ProductIds ids = new();
             try
             {
-                var url = $"{_client}simiuralProducts/{productId}/{count}";
+                var url = $"{_apiUrl}simiuralProducts/{productId}/{count}";
                 var response = await _client.GetAsync(new Uri(url));
                 ids = JsonConvert.DeserializeObject<ProductIds>(await response.Content.ReadAsStringAsync());
                 return ids;

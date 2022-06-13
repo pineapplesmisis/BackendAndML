@@ -209,7 +209,7 @@ namespace MCH.Core.Parsing
         /// <returns></returns>
         public IEnumerable<ProductEntity> GetProductsByListId(ProductIds productIds)
         {
-            _logger.LogInformation($"Getting products with Ids:{string.Join(", ",productIds.Ids)}");
+            _logger.LogInformation($"Getting products with Ids:{string.Join(", ",productIds?.Ids)}");
             return _context.ProductEntities
                 .Include(p => p.Images)
                 .Where(p => productIds.Ids.Contains(p.Id));

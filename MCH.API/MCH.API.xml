@@ -14,6 +14,34 @@
             Адрес апи с машинным обучением
             </summary>
         </member>
+        <member name="M:MCH.API.Controllers.CompaniesController.GetAllCompanies">
+            <summary>
+            Получение списка всех производителей
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MCH.API.Controllers.CompaniesController.CreateCompany(MCH.API.Models.Company)">
+            <summary>
+            Создание производителя
+            </summary>
+            <param name="company"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MCH.API.Controllers.CompaniesController.GetCompanyByIIN(System.String)">
+            <summary>
+            Получение компании по ИНН
+            </summary>
+            <param name="INN">номер ИНН</param>
+            <returns></returns>
+        </member>
+        <member name="M:MCH.API.Controllers.ParsingController.createUrlToParse(MCH.API.Models.UrlsToParse)">
+            <summary>
+            Создание стартовой ссылкы, с который будет начинаться парсинг сайта
+            (может быть несклько для одного сайта)
+            </summary>
+            <param name="urlsToParse"></param>
+            <returns></returns>
+        </member>
         <member name="M:MCH.API.Controllers.ProductsController.GetProducts(System.Int32,System.Int32,System.Int32)">
             <summary>
             Получение списка товаров определенного производителя
