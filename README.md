@@ -32,5 +32,6 @@ ____
                                 1) Между любыми двумя точками существует короткий путь, или, более формально, матожидание числа кратчайшего пути между двумя случайно                                      выбранными вершинами растёт как O(logN).
                                 2) Средняя степень вершины мала.
                                 
-HNSW позволил нам реализовать быстрый поиск товара с логарифмической асимптотикой. Реализация находится в файле [hnsw.py](https://github.com/pineapplesmisis/Back/blob/main/MCH.ML/data_structures/hnsw.py)
+HNSW позволил нам реализовать быстрый поиск товара и поиск похожих товаров с логарифмической асимптотикой. Реализация находится в файле [hnsw.py](https://github.com/pineapplesmisis/Back/blob/main/MCH.ML/data_structures/hnsw.py)
 
+С помощью [DBSCAN](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html) мы разбили данные на 20 кластеров
