@@ -22,6 +22,13 @@ namespace MCH.API.Controllers
             _mlApi = new(settings.Value.MlApiUrl);
         }
 
+        /// <summary>
+        /// Получение списка товаров определенного производителя
+        /// </summary>
+        /// <param name="id">Id производителя</param>
+        /// <param name="count">Количество товаров</param>
+        /// <param name="offset">Спещение списка товаров</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("productsByCompany")]
         public async Task<ActionResult> GetProducts(int id, int count = 100, int offset = 0)

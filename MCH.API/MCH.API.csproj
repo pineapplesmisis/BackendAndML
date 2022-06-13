@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DocumentationFile></DocumentationFile>
+      <DocumentationFile>MCH.API.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -32,6 +32,12 @@
       <ProjectReference Include="..\MCH.Core\MCH.Core.csproj" />
       <ProjectReference Include="..\MCH.Data\MCH.Data.csproj" />
       <ProjectReference Include="..\MCH.Utils\MCH.Utils.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="MCH.API.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

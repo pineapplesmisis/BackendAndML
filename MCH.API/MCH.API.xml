@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MCH.API</name>
+    </assembly>
+    <members>
+        <member name="P:MCH.API.Configuration.AppSettings.DbConnection">
+            <summary>
+            Строка подключения к базе данных
+            </summary>
+        </member>
+        <member name="P:MCH.API.Configuration.AppSettings.MlApiUrl">
+            <summary>
+            Адрес апи с машинным обучением
+            </summary>
+        </member>
+        <member name="T:MCH.API.ExternalServices.MlApi">
+            <summary>
+            Класс для работы с API
+            ML
+            </summary>
+        </member>
+    </members>
+</doc>
