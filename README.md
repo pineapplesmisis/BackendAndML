@@ -27,6 +27,9 @@ ____
 товар - это набор следующих атрибутов: название, текстовое описание  и изображение . Далее мы преобразуем эти атрибуты в эмбеддинги - векторные представления товаров.
 
 SbertWrapper - предобученный BERT, принимающий на вход текстовые данные и возвращающий эмбеддинги [nlp.py](https://github.com/pineapplesmisis/BackendAndML/blob/main/MCH.ML/Models/nlp.py)
+
 В файле [cv.py](https://github.com/pineapplesmisis/BackendAndML/blob/main/MCH.ML/Models/cv.py) находится модель, преобразующая изображения(в виде ссылок) в эмбеддинги
+
 HnswWrapper - класс, строющий 2 иерархических графа HNSW для решения задач поиска товаров по текстовому запросу и поиска похожих товаров [hnsw.py](https://github.com/pineapplesmisis/Back/blob/main/MCH.ML/data_structures/hnsw.py)
+
 ClustersWrapper - класс, разделяющий данные на кластеры с помощью DBSCAN  [clusters.py](https://github.com/pineapplesmisis/BackendAndML/blob/main/MCH.ML/Models/clusters.py)
