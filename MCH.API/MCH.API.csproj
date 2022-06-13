@@ -29,7 +29,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MCH.Core\MCH.Core.csproj" />
       <ProjectReference Include="..\MCH.Data\MCH.Data.csproj" />
       <ProjectReference Include="..\MCH.Utils\MCH.Utils.csproj" />
     </ItemGroup>
