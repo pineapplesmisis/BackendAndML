@@ -214,5 +214,11 @@ namespace MCH.Core.Parsing
                 .Include(p => p.Images)
                 .Where(p => productIds.Ids.Contains(p.Id));
         }
+
+        public CompanyEntity GetCompanyByIIN(string IIN)
+        {
+            return _context.CompanyEntities
+                .FirstOrDefault(c => c.IIN == IIN);
+        }
     }
 }

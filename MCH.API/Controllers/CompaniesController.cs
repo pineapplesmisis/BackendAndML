@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CheckersBackend.Data;
 using MCH.API.Models;
@@ -14,13 +15,17 @@ namespace MCH.API.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<ProductsController> _logger;
-
+        
         public CompaniesController(IUnitOfWork unitOfWork, ILogger<ProductsController> logger)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
-
+        
+        /// <summary>
+        /// Получение списка всех производителей
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("companies")]
         public async Task<ActionResult> GetAllCompanies()
@@ -28,6 +33,11 @@ namespace MCH.API.Controllers
             return Ok(_unitOfWork.parsingRepository.getAllCompanies());
         }
 
+        /// <summary>
+        /// Создание производителя
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("createCompany")]
         public async Task<ActionResult> CreateCompany(Company company)
@@ -55,6 +65,30 @@ namespace MCH.API.Controllers
                 _logger.LogError($"Error while creating new company. Message: {ex.Message}");
                 return BadRequest("Ошибка во время сохранения компании");
             }
+        }
+
+        /// <summary>
+        /// Получение компании по ИНН
+        /// </summary>
+        /// <param name="INN">номер ИНН</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("companyByIIN")]
+        public async Task<ActionResult> GetCompanyByIIN(string INN)
+        {
+            _logger.LogInformation($"Query to get company by IIN: {INN}");
+            if (string.IsNullOrEmpty(INN) || !(INN.Length == 10 || INN.Length == 12) ||!INN.All(s => char.IsNumber(s)))
+            {
+                return BadRequest("IIN должен состоять из 10 или 12 чисел");
+            }
+
+            var company = _unitOfWork.parsingRepository.GetCompanyByIIN(INN);
+            if (company is null)
+            {
+                return NotFound("Произаодителя с таким ИИН нет");
+            }
+
+            return Ok(company);
         }
     }
 }

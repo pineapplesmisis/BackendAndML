@@ -123,5 +123,7 @@ namespace MCH.API.Controllers
             var Ids = await _mlApi.getSimularProducts(productId, count);
             return Ok(_unitOfWork.parsingRepository.GetProductsByListId(Ids));
         }
+        
+        
     }
 }

@@ -11,7 +11,10 @@ app = FastAPI()
 hnsw = HnswWrapper()
 file_name = "search_hnsw.npy"
 file_db_indexes = "db_indexes.npy"
+file_top="top_product_hnsw.npy"
 hnsw.make_query_graph(file_name, file_db_indexes)
+hnsw.make_top_product_graph(file_top, file_db_indexes)
+
 
 
 @app.get("/")
@@ -20,9 +23,11 @@ def read_root():
 
 
 @app.get("/api/ml/simiuralProducts/{product_id}/{count}")
-#def read_item(product_id: int,count: int):
-    #product = data.getProductById(product_id)
-    #return  product
+def similarProducts(product_id: int,count: int):
+    ids = hnsw.top_simular_products(product_id, count)[0].toList()
+    result = ProductsIds()
+    result.Ids = ids
+    return result
 
 @app.get("/api/ml/searchProducts/{query}/{count}")
 def searchByQuery(query: str, count: int):

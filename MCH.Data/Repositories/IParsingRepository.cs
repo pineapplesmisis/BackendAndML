@@ -39,5 +39,7 @@ namespace MCH.Core.Parsing
 
         IEnumerable<ProductEntity> GetProductsByListId(ProductIds ids);
 
+        CompanyEntity GetCompanyByIIN(string IIN);
+
     }
 }

@@ -8,7 +8,9 @@ import pickle
 
 from sklearn.decomposition import TruncatedSVD
 
-from Models import SbertWrapper, mean_pooling, get_embedding_from_link
+from Models import SbertWrapper, mean_pooling
+
+from Data.DataRepository import DataRepository
 
 
 class HnswWrapper:
@@ -17,7 +19,7 @@ class HnswWrapper:
         self.query_graph = hnswlib.Index(space=space, dim=dim_query)
         # Initializing index - the maximum number of elements should be known beforehand
         self.query_graph.init_index(max_elements=max_elements, ef_construction=ef_construction, M=m,
-                                                    random_seed=random_seed)
+                                    random_seed=random_seed)
 
         # Declaring index
         self.top_product_graph = hnswlib.Index(space=space, dim=dim_top)
@@ -28,6 +30,10 @@ class HnswWrapper:
         self.text2vec = SbertWrapper(True)
 
         self.img2vec = Img2Vec(cuda=True if torch.cuda.is_available() else False, model="vgg")
+
+        self.db_indexes = None
+
+        self.data = DataRepository()
 
         with open('svd_name_description_query.pickle', 'rb') as f:
             self.svd_name_description_query = pickle.load(f)
@@ -42,8 +48,16 @@ class HnswWrapper:
         db_indexes = db_indexes[:data.shape[0]]
         self.query_graph.add_items(data, db_indexes)
 
-    def make_top_product_graph(self, file, db_indexes):
-        pass
+    def make_top_product_graph(self, file_name, file_db_indexes):
+        with open(file_name, 'rb') as f:
+            data = np.load(f)
+
+        with open(file_db_indexes, 'rb') as f:
+            db_indexes = np.load(f)
+
+        self.db_indexes = db_indexes[:data.shape[0]]
+
+        self.top_product_graph.add_items(data, self.db_indexes)
 
     def add_product(self):
         pass
@@ -62,5 +76,11 @@ class HnswWrapper:
     def del_product(self):
         pass
 
-    def top_simular_products(self):
-        pass
+    def top_simular_products(self, index, k=15):
+        try:
+            emb = self.top_product_graph.get_items([index])
+            labels, distances = self.top_product_graph.knn_query(emb[0], k=k + 1)
+            return labels[:, 1:]
+        except RuntimeError:
+            product = self.data.getProductById(9175)
+            return self.search_by_query(product.product_name + ' ' + product.description, k=k)

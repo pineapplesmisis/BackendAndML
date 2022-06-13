@@ -21,6 +21,12 @@ namespace MCH.API.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Создание стартовой ссылкы, с который будет начинаться парсинг сайта
+        /// (может быть несклько для одного сайта)
+        /// </summary>
+        /// <param name="urlsToParse"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("createUrlToParse")]
         public async Task<ActionResult> createUrlToParse([FromBody] UrlsToParse urlsToParse)
