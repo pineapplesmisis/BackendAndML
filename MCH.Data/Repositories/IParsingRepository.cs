@@ -22,6 +22,8 @@ namespace MCH.Core.Parsing
         CompanyEntity getCompanyEntity(int Id);
 
         Task AddImageIfNotExistAsync(ImageEntity image);
+
+        ProductsListResponse GetProducts(int count, int offset);
         
 
         ProductsListResponse GetProductsByCompany(int companyId, int count, int offset);

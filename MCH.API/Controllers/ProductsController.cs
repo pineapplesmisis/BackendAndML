@@ -38,6 +38,14 @@ namespace MCH.API.Controllers
             _logger.LogInformation($"Query to get products. CompanyId: {id}");
             return Ok(_unitOfWork.parsingRepository.GetProductsByCompany(id, count, offset));
         }
+
+        [HttpGet]
+        [Route("")]
+        public async Task<ActionResult> GetProducts(int count, int offset)
+        {
+            _logger.LogInformation($"Qery get top: {count} products with offset: {offset}");
+            return Ok(_unitOfWork.parsingRepository.GetProducts(count, offset));
+        }
         
         
         [HttpGet]

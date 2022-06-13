@@ -120,7 +120,25 @@ namespace MCH.Core.Parsing
            
            
         }
-        
+
+        /// <summary>
+        /// Вовращает список товаров из общего списка, без ограничений
+        /// на компани, категорию и тд
+        /// </summary>
+        /// <param name="count">Количетсво товаров</param>
+        /// <param name="offset">Смещение</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public ProductsListResponse GetProducts(int count, int offset)
+        {
+            _logger.LogInformation($"Getting top {count} product with offset:{offset}");
+            var result = new ProductsListResponse();
+            result.products =  _context.ProductEntities.FromSqlRaw($"SELECT * FROM \"ProductEntities\"  LIMIT {count} OFFSET {offset}")
+                .Include(p => p.Images);
+            result.TotalProjects =   _context.ProductEntities.FromSqlRaw($"SELECT * FROM \"ProductEntities\"").Count();
+            return result;
+        }
+
 
         /// <summary>
         /// Получение списка товаров компании
@@ -193,6 +211,7 @@ namespace MCH.Core.Parsing
         {
             _logger.LogInformation($"Getting products with Ids:{string.Join(", ",productIds.Ids)}");
             return _context.ProductEntities
+                .Include(p => p.Images)
                 .Where(p => productIds.Ids.Contains(p.Id));
         }
     }
