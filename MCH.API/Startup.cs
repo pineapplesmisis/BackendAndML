@@ -41,9 +41,9 @@ namespace MCH.API
             
             services.AddSwaggerGen(c =>
             {
-                // c.SwaggerDoc("v1", new OpenApiInfo(){Title = "Import substitution API", Version = "v1"});
-                // var xmlFilePath = Path.Combine(System.AppContext.BaseDirectory, "MCH.API.xml");
-                // c.IncludeXmlComments(xmlFilePath);
+                c.SwaggerDoc("v1", new OpenApiInfo(){Title = "Import substitution API", Version = "v1"});
+                var xmlFilePath = Path.Combine(System.AppContext.BaseDirectory, "MCH.API.xml");
+                c.IncludeXmlComments(xmlFilePath);
             });
             
             services.AddDbContext<ProductionInfoDbContext>(options => options.UseNpgsql(appSettings.Get<AppSettings>().DbConnection, x => x.MigrationsAssembly("MCH.API")));
