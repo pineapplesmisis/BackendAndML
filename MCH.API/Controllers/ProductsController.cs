@@ -58,6 +58,15 @@ namespace MCH.API.Controllers
         [Route("")]
         public async Task<ActionResult> GetProducts(int count, int offset)
         {
+            if (count <= 0)
+            {
+                return BadRequest("Количество запрашиваемых товаров должно быть положительным");
+            }
+
+            if (offset < 0)
+            {
+                return BadRequest("Смещение должно быть больше или равно нулю");
+            }
             _logger.LogInformation($"Qery get top: {count} products with offset: {offset}");
             try
             {
@@ -80,6 +89,11 @@ namespace MCH.API.Controllers
         [Route("productsByQuery")]
         public async Task<ActionResult> GetProductsByQuery(string query, int count = 10)
         {
+            if (count <= 0)
+            {
+                return BadRequest("Количество запрашиваемых товаров должно быть положительным");
+            }
+            
             _logger.LogInformation($"Query to get products. Query: {query}");
             try
             {
@@ -154,6 +168,10 @@ namespace MCH.API.Controllers
         [Route("simularProducts")]
         public async Task<ActionResult> GetSimularProducts(int productId, int count = 10)
         {
+            if (count <= 0)
+            {
+                return BadRequest("Количество запрашиваемых товаров должно быть положительным");
+            }
             _logger.LogInformation($"Query to get top: {count} similar product to product with id:{productId}");
             try
             {
