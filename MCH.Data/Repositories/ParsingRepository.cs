@@ -66,7 +66,24 @@ namespace MCH.Core.Parsing
             _logger.LogInformation($"Adding company with name: {company.CompanyName}");
             await _context.CompanyEntities.AddAsync(company);
         }
+       
 
+        /// <summary>
+        /// Получение списка всех компаний
+        /// </summary>
+        /// <param name="count">Максимально количество производителей в ответе</param>
+        /// <param name="offset">Смещение </param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public IEnumerable<CompanyEntity> getCompanies(int count, int offset)
+        {
+            _logger.LogInformation($"Getting top {count} companies with offset:{offset}");
+            var result =
+                _context.CompanyEntities.FromSqlRaw(
+                    $"SELECT * FROM \"CompanyEntities\"  LIMIT {count} OFFSET {offset}");
+            return result;
+        }
+        
         /// <summary>
         /// Получение списка всех компаний
         /// </summary>
@@ -76,7 +93,7 @@ namespace MCH.Core.Parsing
             _logger.LogInformation("Getting all companies");
             return _context.CompanyEntities;
         }
-
+        
         /// <summary>
         /// Получение списка ссылок для парсинга
         /// для компании

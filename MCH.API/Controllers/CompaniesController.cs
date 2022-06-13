@@ -28,11 +28,11 @@ namespace MCH.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("companies")]
-        public async Task<ActionResult> GetAllCompanies()
+        public async Task<ActionResult> GetAllCompanies(int count, int offset)
         {
             try
             {
-                return Ok(_unitOfWork.parsingRepository.getAllCompanies());
+                return Ok(_unitOfWork.parsingRepository.getCompanies(count, offset));
             }
             catch (Exception ex)
             {

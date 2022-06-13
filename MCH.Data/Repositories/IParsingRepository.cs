@@ -17,6 +17,8 @@ namespace MCH.Core.Parsing
 
         IEnumerable<CompanyEntity> getAllCompanies();
 
+        IEnumerable<CompanyEntity> getCompanies(int count, int offset);
+
         IEnumerable<UrlsToParseEntity> getUrlsToParse(int companyId);
 
         CompanyEntity getCompanyEntity(int Id);
