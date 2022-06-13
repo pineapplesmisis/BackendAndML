@@ -39,6 +39,7 @@ namespace MCH.API.Controllers
             return Ok(_unitOfWork.parsingRepository.GetProductsByCompany(id, count, offset));
         }
         
+        
         [HttpGet]
         [Route("productsByQuery")]
         public async Task<ActionResult> GetProductsByQuery(string query)
