@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DocumentationFile>bin\Debug\MCH.API.xml</DocumentationFile>
+      <DocumentationFile>app\MCH.API.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
