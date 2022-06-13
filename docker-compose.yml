@@ -16,6 +16,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5001:8000
+   
+  mch.parser:
+    image: ${DOCKER_REGISTRY-}mchparser
+    build:
+      context: .
+      dockerfile: MCH.Parser/Dockerfile
       
   nginx:
     image: nginx:latest
