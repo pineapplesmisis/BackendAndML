@@ -34,4 +34,4 @@ ____
                                 
 HNSW позволил нам реализовать быстрый поиск товара и поиск похожих товаров с логарифмической асимптотикой. Реализация находится в файле [hnsw.py](https://github.com/pineapplesmisis/Back/blob/main/MCH.ML/data_structures/hnsw.py)
 
-С помощью [DBSCAN](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html) мы разбили данные на 20 кластеров
+С помощью [DBSCAN](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html) мы разбили данные на 20 кластеров.
