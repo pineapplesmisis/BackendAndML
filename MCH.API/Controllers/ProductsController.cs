@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CheckersBackend.Data;
 using MCH.API.Configuration;
@@ -109,7 +110,7 @@ namespace MCH.API.Controllers
         }
 
         /// <summary>
-        /// Получение количество товаров у производителя
+        /// Получение количества товаров у производителя
         /// </summary>
         /// <param name="companyId">Id производителя</param>
         /// <returns></returns>
@@ -176,7 +177,7 @@ namespace MCH.API.Controllers
             try
             {
                 var Ids = await _mlApi.getSimularProducts(productId, count);
-                return Ok(_unitOfWork.parsingRepository.GetProductsByListId(Ids));
+                return Ok(_unitOfWork.parsingRepository.GetProductsByListId(Ids).OrderByDescending(x=>x));
             }
             catch (Exception ex)
             {
