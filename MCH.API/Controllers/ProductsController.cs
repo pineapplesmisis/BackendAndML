@@ -22,6 +22,7 @@ namespace MCH.API.Controllers
             _mlApi = new(settings.Value.MlApiUrl);
         }
 
+
         /// <summary>
         /// Получение списка товаров определенного производителя
         /// </summary>
