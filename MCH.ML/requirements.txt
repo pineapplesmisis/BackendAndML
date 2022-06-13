@@ -17,3 +17,4 @@ hnswlib
 pickle-mixin
 pydantic
 typing
+psycopg2

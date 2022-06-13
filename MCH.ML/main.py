@@ -24,7 +24,7 @@ def read_root():
 
 @app.get("/api/ml/simiuralProducts/{product_id}/{count}")
 def similarProducts(product_id: int,count: int):
-    ids = hnsw.top_simular_products(product_id, count)[0].toList()
+    ids = hnsw.top_simular_products(product_id, count)[0].tolist()
     result = ProductsIds()
     result.Ids = ids
     return result
@@ -36,8 +36,7 @@ def searchByQuery(query: str, count: int):
     result.Ids = ids
     return  result
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+
 
 
 
