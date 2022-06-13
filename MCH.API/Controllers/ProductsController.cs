@@ -177,7 +177,7 @@ namespace MCH.API.Controllers
             try
             {
                 var Ids = await _mlApi.getSimularProducts(productId, count);
-                return Ok(_unitOfWork.parsingRepository.GetProductsByListId(Ids).Reverse());
+                return Ok(_unitOfWork.parsingRepository.GetProductsByListId(Ids));
             }
             catch (Exception ex)
             {
