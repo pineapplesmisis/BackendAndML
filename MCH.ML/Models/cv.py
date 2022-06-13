@@ -3,7 +3,7 @@ import requests
 from io import BytesIO
 
 
-async def get_embedding_from_link(link, img2vec):
+def get_embedding_from_link(link, img2vec):
     """
     Compute photo embeddings
 

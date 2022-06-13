@@ -1,5 +1,5 @@
 
-class Product():
+class Product:
     id: int
     product_name: str
     description: str
